@@ -44,16 +44,16 @@ $$
 | **intrinsic** | $\pi=\tfrac1n\mathbf 1,\ \mu=A^\top\pi$ | non-expansive, $\lambda_1(D)=1$ on the constant mode (Prop. 2); routing lives on the $\mu$-centered subspace |
 
 In the intrinsic geometry the head output splits as $AV=\mathbf 1 m + AV_c$, a transported mean plus a
-routed part with $\lVert AV_c\rVert_{\pi,F}\le\sqrt{\lambda_2(D)}\,\lVert V_c\rVert_{\mu,F}$ (Prop. 3), and
+routed part with $\lVert AV_c\rVert_{\pi,F}\le\sqrt{\lambda_2(D)}\ \lVert V_c\rVert_{\mu,F}$ (Prop. 3), and
 the spectrum bounds the spectral entropy of the output (Cor. 2). We summarise the spectrum by the
 normalised participation ratio
 
 $$
-\mathrm{PR}(D_{\mu,\pi}) = \frac1n\,\frac{\operatorname{tr}(D)^2}{\operatorname{tr}(D^2)} \in \Big[\tfrac1n,1\Big],
+\mathrm{PR}(D_{\mu,\pi}) = \frac{1}{n} \cdot \frac{\mathrm{tr}(D)^2}{\mathrm{tr}(D^2)} \in \left[\frac{1}{n}, 1\right],
 $$
 
-which needs only $\operatorname{tr}(S)$ and $\lVert S\rVert_F^2$ of the symmetric matrix
-$S=\Omega_\mu^{-1/2}A^\top\Omega_\pi A\,\Omega_\mu^{-1/2}$, with no eigendecomposition.
+which needs only $\mathrm{tr}(S)$ and $\lVert S\rVert_F^2$ of the symmetric matrix
+$S=\Omega_\mu^{-1/2}A^\top\Omega_\pi A\ \Omega_\mu^{-1/2}$, with no eigendecomposition.
 
 **SAUQ.** For each layer $l$ in the middle third of the network:
 
@@ -61,7 +61,7 @@ $S=\Omega_\mu^{-1/2}A^\top\Omega_\pi A\,\Omega_\mu^{-1/2}$, with no eigendecompo
    $h^*=\arg\max_h \mathrm{PR}(B_hB_h^\top)$ with one batched product over all heads.
 2. **Routing signal.** At every decoding step $t$, on the selected head's attention over the whole prefix,
    $s_t=\mathrm{PR}(D_{\mu_t,\pi_t})$ with intrinsic measures. This is computed incrementally in $O(n^2)$ per step.
-3. **Confidence recurrence** (as in RAUQ): $c_1=p_1$, $c_t=\alpha p_t+(1-\alpha)\,s_t\,c_{t-1}$, with $\alpha=0.2$.
+3. **Confidence recurrence** (as in RAUQ): $c_1=p_1$, $c_t=\alpha p_t+(1-\alpha) s_t c_{t-1}$, with $\alpha=0.2$.
 4. $U^{(l)}=1-\frac1T\sum_t\log c_t$, and $U_{\mathrm{SAUQ}}=\max_l U^{(l)}$.
 
 Collapsed routing ($s_t\to 0$) stops confidence from propagating, so the uncertainty rises.
@@ -193,13 +193,13 @@ confidence intervals, is in the paper.
 ## Implementation notes
 
 * **Indexing.** Position $P+t-1$ is the query that predicts generated token $y_t$. The step-$t$
-  signal uses the prefix $A[:P+t,\,:P+t]$; head selection and the generation-only variant use the
+  signal uses the prefix $A[:P+t, :P+t]$; head selection and the generation-only variant use the
   rows that produced $y_0,\dots,y_{T-1}$ restricted to generated keys.
 * **Fidelity to the paper runs.** Head selection and the generation-only signal match the code used
-  for the paper to numerical precision. The intrinsic signal is computed from a clean teacher-forced attention matrix.
-  The original pipeline carried one extra all-on-first-token row in the prompt+generation matrix (an
-  artifact of how per-step attention was stitched from `generate`). On GPT-2 the resulting SAUQ scores
-  differ by at most 0.5% with identical rankings (Spearman 1.0).
+  for the paper to numerical precision. The intrinsic signal is computed from a clean teacher-forced
+  attention matrix. The original pipeline carried one extra all-on-first-token row in the
+  prompt+generation matrix (an artifact of how per-step attention was stitched from `generate`). On
+  GPT-2 the resulting SAUQ scores differ by at most 0.5% with identical rankings (Spearman 1.0).
 * **Tests.** [tests/test_tdo.py](tests/test_tdo.py) checks Propositions 1–3 and Corollaries 1–2
   numerically. [tests/test_sauq.py](tests/test_sauq.py) checks the incremental $O(n^2)$ updates
   against direct computation on every prefix. Run `pytest tests`.
