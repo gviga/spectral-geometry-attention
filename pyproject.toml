@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spectral-attention"
+version = "0.1.0"
+description = "Spectral Geometry of Attention: Token Difference Operator and SAUQ uncertainty estimator"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Giulio Viganò" },
+    { name = "Simone Melzi" },
+    { name = "Maks Ovsjanikov" },
+]
+requires-python = ">=3.9"
+dependencies = ["numpy", "scipy"]
+
+[project.optional-dependencies]
+hf = ["torch", "transformers"]
+examples = ["torch", "transformers", "matplotlib", "datasets", "scikit-learn"]
+lm-polygraph = ["torch", "transformers", "lm-polygraph"]
+dev = ["pytest"]
+
+[project.urls]
+Paper = "https://arxiv.org/abs/2610.06012"
+
+[tool.setuptools.packages.find]
+include = ["spectral_attention*"]

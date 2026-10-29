@@ -1,0 +1,12 @@
+# Default lm-polygraph calculators + the SAUQ routing-signal calculator.
+# Copy to <lm-polygraph>/examples/configs/stat_calculators/ and select it with
+#   defaults: [..., stat_calculators: sauq_calculators, ...]
+- auto
+- name: SAUQSignalCalculator
+  builder: spectral_attention.lm_polygraph.calculator
+  cfg:
+    variant: intrinsic        # "generation" for the generation-only variant
+  stats:
+    - sauq_signals
+  dependencies:
+    - greedy_tokens

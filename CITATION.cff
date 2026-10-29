@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper below."
+title: "Spectral Geometry of Attention: From Information Routing to Uncertainty"
+authors:
+  - family-names: Viganò
+    given-names: Giulio
+  - family-names: Melzi
+    given-names: Simone
+  - family-names: Ovsjanikov
+    given-names: Maks
+preferred-citation:
+  type: article
+  title: "Spectral Geometry of Attention: From Information Routing to Uncertainty"
+  authors:
+    - family-names: Viganò
+      given-names: Giulio
+    - family-names: Melzi
+      given-names: Simone
+    - family-names: Ovsjanikov
+      given-names: Maks
+  year: 2026
+  identifiers:
+    - type: other
+      value: "arXiv:2610.06012"
+  url: "https://arxiv.org/abs/2610.06012"

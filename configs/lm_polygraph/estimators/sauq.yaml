@@ -1,0 +1,12 @@
+# SAUQ next to the single-pass baselines that share its recurrence or cost.
+# Copy to <lm-polygraph>/examples/configs/estimators/ and select it with
+#   defaults: [..., estimators: sauq, ...]
+- name: spectral_attention.lm_polygraph.estimator
+  cfg:
+    alpha: 0.2
+- name: RAUQ
+  cfg:
+    alpha: 0.2
+- name: MaximumSequenceProbability
+- name: Perplexity
+- name: MeanTokenEntropy
